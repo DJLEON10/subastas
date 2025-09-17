@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Instagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fafafa;
+        }
+
+        .container {
+            display: flex;
+            max-width: 975px;
+            margin: 0 auto;
+            padding-top: 30px;
+        }
+
+        /* Barra lateral */
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            position: fixed;
+            border-right: 1px solid #dbdbdb;
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo img {
+            width: 180px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #262626;
+        }
+
+        .nav-item:hover {
+            background-color: #f8f8f8;
+        }
+
+        .nav-item i {
+            margin-right: 16px;
+            font-size: 24px;
+        }
+
+        .nav-item span {
+            font-size: 16px;
+        }
+
+        .profile-pic-small {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 16px;
+            object-fit: cover;
+        }
+
+        /* Contenido principal */
+        .main-content {
+            margin-left: 240px;
+            flex: 1;
+        }
+
+        /* Perfil de usuario */
+        .profile {
+            padding: 30px 0;
+            display: flex;
+            border-bottom: 1px solid #dbdbdb;
+            margin-bottom: 44px;
+        }
+
+        .profile-pic-container {
+            width: 150px;
+            margin-right: 70px;
+            margin-left: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .username {
+            font-size: 28px;
+            font-weight: 300;
+            margin-right: 20px;
+        }
+
+        .edit-profile {
+            background: transparent;
+            border: 1px solid #dbdbdb;
+            border-radius: 4px;
+            color: #262626;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 5px 9px;
+            cursor: pointer;
+        }
+
+        .settings {
+            margin-left: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .profile-stats {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            margin-right: 40px;
+            font-size: 16px;
+        }
+
+        .stat-count {
+            font-weight: 600;
+        }
+
+        .profile-bio {
+            margin-bottom: 10px;
+        }
+
+        .full-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .bio-text {
+            font-size: 16px;
+            margin-top: 5px;
+            max-width: 400px;
+        }
+
+        .website {
+            color: #00376b;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Historias destacadas */
+        .highlights {
+            display: flex;
+            margin-bottom: 44px;
+            padding-bottom: 10px;
+            overflow-x: auto;
+        }
+
+        .highlight {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 25px;
+            cursor: pointer;
+        }
+
+        .highlight-img {
+            width: 87px;
+            height: 87px;
+            border-radius: 50%;
+            padding: 3px;
+            border: 1px solid #dbdbdb;
+            margin-bottom: 8px;
+        }
+
+        .highlight-img img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .highlight-text {
+            font-size: 12px;
+            text-align: center;
+            width: 87px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Pestañas del perfil */
+        .profile-tabs {
+            display: flex;
+            justify-content: center;
+            border-top: 1px solid #dbdbdb;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 0;
+            width: 33.33%;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #8e8e8e;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .tab.active {
+            color: #262626;
+            border-top: 1px solid #262626;
+            margin-top: -1px;
+        }
+
+        .tab i {
+            margin-right: 6px;
+        }
+
+        /* Grid de fotos */
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+        }
+
+        .photo-item {
+            position: relative;
+            aspect-ratio: 1;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .photo-item:hover .photo-overlay {
+            opacity: 1;
+        }
+
+        .photo-stats {
+            display: flex;
+            align-items: center;
+        }
+
+        .photo-stat {
+            display: flex;
+            align-items: center;
+            margin: 0 10px;
+            font-weight: 600;
+        }
+
+        .photo-stat i {
+            margin-right: 7px;
+        }
+
+        /* Hacer el diseño responsivo */
+        @media (max-width: 1000px) {
+            .profile-pic-container {
+                margin-right: 30px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .sidebar {
+                width: 60px;
+                padding: 20px 12px;
+            }
+            
+            .nav-item span {
+                display: none;
+            }
+            
+            .logo img {
+                display: none;
+            }
+            
+            .logo:before {
+                content: 'IG';
+                font-size: 24px;
+                font-weight: bold;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .profile {
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+            }
+            
+            .profile-pic-container {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .username {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+            
+            .profile-bio {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding-top: 0;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: 60px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                top: auto;
+                border-right: none;
+                border-top: 1px solid #dbdbdb;
+                flex-direction: row;
+                justify-content: space-around;
+                padding: 10px;
+                z-index: 10;
+            }
+            
+            .logo {
+                display: none;
+            }
+            
+            .nav-item {
+                padding: 8px;
+                margin: 0;
+            }
+            
+            .nav-item i {
+                margin-right: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                margin-bottom: 60px;
+                padding: 0 15px;
+            }
+            
+            .photos-grid {
+                gap: 2px;
+            }
+            
+            .profile-stats .stat {
+                margin-right: 20px;
+            }
+        }
+    </style>
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Barra lateral -->
+        <div class="sidebar">
+            <div class="logo">
+                <img src="./img/LOGO.jpeg" alt="">
+            </div>
+            <a href="#" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-search"></i>
+                <span>Buscar</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="far fa-compass"></i>
+                <span>Explorar</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-film"></i>
+                <span>Reels</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="far fa-paper-plane"></i>
+                <span>Mensajes</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="far fa-heart"></i>
+                <span>Notificaciones</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="far fa-plus-square"></i>
+                <span>Crear</span>
+            </a>
+            <a href="#" class="nav-item">
+                <img src="./img/LOGO.jpeg" alt="" class="profile-pic-small">
+                <span>Perfil</span>
+            </a>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <!-- Perfil de usuario -->
+            <div class="profile">
+                <div class="profile-pic-container">
+                    <img src="./img/LOGO.jpeg" alt="" class="profile-pic">
+                </div>
+                <div class="profile-info">
+                    <div class="profile-header">
+                        <h2 class="username">HBC</h2>
+                        <button class="edit-profile">Editar perfil</button>
+                        <div class="settings">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-count">12</span> publicaciones
+                        </div>
+                        <div class="stat">
+                            <span class="stat-count">300k</span> seguidores
+                        </div>
+                        <div class="stat">
+                            <span class="stat-count">745</span> seguidos
+                        </div>
+                    </div>
+                    <div class="profile-bio">
+                        <div class="full-name">HBC</div>
+                        <div class="bio-text">
+                            🫂 APOYO | UNIDAD | DEDICACIÓN<br>
+                            ✨ Compartiendo momentos especiales<br>
+                            🌎 COLOMBIA, OCAÑA
+                        </div>
+                        <a href="#" class="website"></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historias destacadas -->
+            <div class="highlights">
+                <div class="highlight">
+                    <div class="highlight-img">
+                        <img src="./img/zona_1.jpg" alt="Historia destacada">
+                    </div>
+                    <span class="highlight-text">Zonas</span>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-img">
+                        <img src="./img/zona_2.jpg" alt="Historia destacada">
+                    </div>
+                    <span class="highlight-text">Ayuda</span>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-img">
+                        <img src="./img/zona_3.jpg" alt="Historia destacada">
+                    </div>
+                    <span class="highlight-text">Amigos</span>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-img">
+                        <img src="./img/zona_4.jpg" alt="Historia destacada">
+                    </div>
+                    <span class="highlight-text">Unidad</span>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-img">
+                        <img src="./img/zona_5.jpg" alt="Historia destacada">
+                    </div>
+                    <span class="highlight-text">Apoyo</span>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-img">
+                        <img src="./img/zona_6.jpg" alt="Historia destacada">
+                    </div>
+                    <span class="highlight-text">Colaboradores</span>
+                </div>
+            </div>
+
+            <!-- Pestañas del perfil -->
+            <div class="profile-tabs">
+                <a href="#" class="tab active">
+                    <i class="fas fa-th"></i>
+                    <span>Publicaciones</span>
+                </a>
+                <a href="#" class="tab">
+                    <i class="far fa-play-circle"></i>
+                    <span>Reels</span>
+                </a>
+                <a href="#" class="tab">
+                    <i class="far fa-bookmark"></i>
+                    <span>Guardado</span>
+                </a>
+            </div>
+
+            <!-- Grid de fotos -->
+            <div class="photos-grid">
+                <!-- Foto 1 -->
+                <div class="photo-item">
+                    <img src="./img/zona_3.jpg" alt="Publicación" class="photo-img">
+                    <div class="photo-overlay">
+                        <div class="photo-stats">
+                            <div class="photo-stat">
+                                <i class="fas fa-heart"></i>
+                                <span>253</span>
+                            </div>
+                            <div class="photo-stat">
+                                <i class="fas fa-comment"></i>
+                                <span>42</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 2 -->
+                <div class="photo-item">
+                    <img src="./img/pu_1.jpg" alt="Publicación" class="photo-img">
+                    <div class="photo-overlay">
+                        <div class="photo-stats">
+                            <div class="photo-stat">
+                                <i class="fas fa-heart"></i>
+                                <span>186</span>
+                            </div>
+                            <div class="photo-stat">
+                                <i class="fas fa-comment"></i>
+                                <span>21</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 3 -->
+                <div class="photo-item">
+                    <img src="./img/pu_2.jpg" alt="Publicación" class="photo-img">
+                    <div class="photo-overlay">
+                        <div class="photo-stats">
+                            <div class="photo-stat">
+                                <i class="fas fa-heart"></i>
+                                <span>325</span>
+                            </div>
+                            <div class="photo-stat">
+                                <i class="fas fa-comment"></i>
+                                <span>63</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 4 -->
+                <div class="photo-item">
+                    <img src="./img/pu_3.jpg" alt="Publicación" class="photo-img">
+                    <div class="photo-overlay">
+                        <div class="photo-stats">
+                            <div class="photo-stat">
+                                <i class="fas fa-heart"></i>
+                                <span>149</span>
+                            </div>
+                            <div class="photo-stat">
+                                <i class="fas fa-comment"></i>
+                                <span>17</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 5 -->
+                <div class="photo-item">
+                    <img src="./img/pu_4.jpg" alt="Publicación" class="photo-img">
+                    <div class="photo-overlay">
+                        <div class="photo-stats">
+                            <div class="photo-stat">
+                                <i class="fas fa-heart"></i>
+                                <span>257</span>
+                            </div>
+                            <div class="photo-stat">
+                                <i class="fas fa-comment"></i>
+                                <span>32</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 6 -->
+                <div class="photo-item">
+                    <img src="./img/pu_5.jpg" alt="Publicación" class="photo-img">
+                    <div class="photo-overlay">
+                        <div class="photo-stats">
+                            <div class="photo-stat">
+                                <i class="fas fa-heart"></i>
+                                <span>421</span>
+                            </div>
+                            <div class="photo-stat">
+                                <i class="fas fa-comment"></i>
+                                <span>85</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 7 -->
+                <div class="photo-item">
+                    <img src="./img/pu_6.jpg" alt="Publicación" class="photo-img">
+                    <div class="photo-overlay">
+                        <div class="photo-stats">
+                            <div class="photo-stat">
+                                <i class="fas fa-heart"></i>
+                                <span>175</span>
+                            </div>
+                            <div class="photo-stat">
+                                <i class="fas fa-comment"></i>
+                                <span>14</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 8 -->
+                <div class="photo-item">
+                    <img src="./img/pu_7.jpg" alt="Publicación" class="photo-img">
+                    <div class="photo-overlay">
+                        <div class="photo-stats">
+                            <div class="photo-stat">
+                                <i class="fas fa-heart"></i>
+                                <span>238</span>
+                            </div>
+                            <div class="photo-stat">
+                                <i class="fas fa-comment"></i>
+                                <span>25</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 9 -->
+                <div class="photo-item">
+                    <img src="./img/pu_8.jpg" alt="Publicación" class="photo-img">
+                    <div class="photo-overlay">
+                        <div class="photo-stats">
+                            <div class="photo-stat">
+                                <i class="fas fa-heart"></i>
+                                <span>305</span>
+                            </div>
+                            <div class="photo-stat">
+                                <i class="fas fa-comment"></i>
+                                <span>51</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 10 -->
+                <div class="photo-item">
+                    <img src="./img/pu_9.jpg" alt="Publicación" class="photo-img">
+                    <div class="photo-overlay">
+                        <div class="photo-stats">
+                            <div class="photo-stat">
+                                <i class="fas fa-heart"></i>
+                                <span>192</span>
+                            </div>
+                            <div class="photo-stat">
+                                <i class="fas fa-comment"></i>
+                                <span>27</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 11 -->
+                <div class="photo-item">
+                    <img src="./img/pu_10.jpg" alt="Publicación" class="photo-img">
+                    <div class="photo-overlay">
+                        <div class="photo-stats">
+                            <div class="photo-stat">
+                                <i class="fas fa-heart"></i>
+                                <span>281</span>
+                            </div>
+                            <div class="photo-stat">
+                                <i class="fas fa-comment"></i>
+                                <span>39</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Foto 12 -->
+                <div class="photo-item">
+                    <img src="./img/pu_11.jpg" alt="Publicación" class="photo-img">
+                    <div class="photo-overlay">
+                        <div class="photo-stats">
+                            <div class="photo-stat">
+                                <i class="fas fa-heart"></i>
+                                <span>217</span>
+                            </div>
+                            <div class="photo-stat">
+                                <i class="fas fa-comment"></i>
+                                <span>29</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

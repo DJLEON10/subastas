@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBC - Facebook</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+        }
+        
+        .header {
+            background-color: #ffffff;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            color: #1877f2;
+            font-size: 40px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .search-box {
+            background-color: #f0f2f5;
+            border-radius: 50px;
+            padding: 8px 16px;
+            width: 240px;
+        }
+        
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 15px;
+        }
+        
+        .nav-links {
+            display: flex;
+            margin-left: auto;
+        }
+        
+        .nav-item {
+            background-color: transparent;
+            color: #65676b;
+            padding: 8px 16px;
+            margin: 0 4px;
+            border-radius: 8px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover {
+            background-color: #f0f2f5;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            margin-left: 500px;
+        }
+        
+        .user-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e4e6eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+        
+        .main-content {
+            max-width: 1280px;
+            margin: 60px auto 0;
+            padding: 0 16px;
+        }
+        
+        .cover-photo {
+            width: 100%;
+            height: 350px;
+            background-color: #ccc;
+            background-image: url('../public/img/malaysia-4012302_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+        
+        .page-info {
+            padding: 0 16px 16px;
+            background-color: #fff;
+            border-radius: 0 0 8px 8px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .profile-photo {
+            width: 168px;
+            height: 168px;
+            border-radius: 50%;
+            border: 4px solid #D5DBDB;
+            background-color: white;
+            background-image: url('../public/img/loquitos.jpg');
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: -80px;
+            left: 16px;
+        }
+        
+        .page-name-container {
+            margin-left: 185px;
+            padding-top: 16px;
+        }
+        
+        .page-name {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .page-category {
+            color: #65676b;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .page-stats {
+            display: flex;
+            margin-top: 8px;
+            color: #65676b;
+            font-size: 14px;
+        }
+        
+        .page-stat {
+            margin-right: 16px;
+        }
+        
+        .page-menu {
+            display: flex;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e4e6eb;
+        }
+        
+        .page-menu-item {
+            padding: 16px;
+            font-weight: 600;
+            color: #65676b;
+            cursor: pointer;
+        }
+        
+        .page-menu-item.active {
+            color: #1877f2;
+            border-bottom: 3px solid #1877f2;
+        }
+        
+        .page-menu-item:hover {
+            background-color: #f0f2f5;
+            border-radius: 8px;
+        }
+        
+        .page-actions {
+            display: flex;
+            margin-top: 16px;
+        }
+        
+        .action-button {
+            padding: 8px 16px;
+            margin-right: 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .primary-button {
+            background-color: #1877f2;
+            color: white;
+        }
+        
+        .secondary-button {
+            background-color: #e4e6eb;
+            color: #050505;
+        }
+        
+        .content-area {
+            display: flex;
+        }
+        
+        .left-column {
+            flex: 1;
+            margin-right: 16px;
+        }
+        
+        .right-column {
+            width: 360px;
+        }
+        
+        .section-card {
+            background-color: #fff;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        
+        .about-list {
+            list-style-type: none;
+        }
+        
+        .about-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            color: #65676b;
+        }
+        
+        .about-icon {
+            margin-right: 8px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .create-post {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+        }
+        
+        .post-input {
+            flex: 1;
+            background-color: #f0f2f5;
+            border-radius: 20px;
+            padding: 8px 16px;
+            margin-left: 8px;
+            color: #65676b;
+            cursor: pointer;
+        }
+        
+        .post {
+            padding: 12px 16px;
+            border-bottom: 1px solid #e4e6eb;
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .post-profile {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e4e6eb;
+            background-image: url('../public/img/loquitos.jpg');
+            background-size: cover;
+            background-position: center;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+       
+        
+        .post-info {
+            flex: 1;
+        }
+        
+        .post-author {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .post-time {
+            color: #65676b;
+            font-size: 13px;
+        }
+        
+        .post-content {
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        
+        .post-image {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-top: 1px solid #e4e6eb;
+            color: #65676b;
+        }
+        
+        .post-action {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            flex: 1;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .post-action:hover {
+            background-color: #f0f2f5;
+        }
+        
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+        }
+        
+        .photo-item {
+            width: 100%;
+            padding-bottom: 100%;
+            background-color: #e4e6eb;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .view-all {
+            color: #1877f2;
+            font-weight: 600;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .content-area {
+                flex-direction: column;
+            }
+            
+            .right-column {
+                width: 100%;
+            }
+            
+            .profile-photo {
+                width: 120px;
+                height: 120px;
+                top: -60px;
+            }
+            
+            .page-name-container {
+                margin-left: 140px;
+            }
+            
+            .page-name {
+                font-size: 24px;
+            }
+            
+            .cover-photo {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header/Navbar -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">f</div>
+            <div class="search-box">
+                <input type="text" placeholder="Buscar en Facebook">
+            </div>
+            
+            <div class="user-menu">
+                <div class="user-icon">➕</div>
+                <div class="user-icon">💬</div>
+                <div class="user-icon">🔔</div>
+                <div class="user-icon">👤</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Cover Photo and Page Info -->
+        <div class="cover-photo"></div>
+        <div class="page-info">
+            <div class="profile-photo"></div>
+            <div class="page-name-container">
+                <h1 class="page-name">HBC</h1>
+                <div class="page-category">@hbc@gmail.com· Ayuda</div>
+                <div class="page-stats">
+                    <div class="page-stat">👍 25K personas les gusta esto</div>
+                    <div class="page-stat">👥 26K seguidores</div>
+                </div>
+                <div class="page-actions">
+                    <div class="action-button primary-button">👍 Me gusta</div>
+                    <div class="action-button secondary-button">💬 Enviar mensaje</div>
+                    <div class="action-button secondary-button">🔍 Buscar</div>
+                    <div class="action-button secondary-button">⋯</div>
+                </div>
+            </div>
+            <div class="page-menu">
+                <div class="page-menu-item active">Inicio</div>
+                <div class="page-menu-item">Información</div>
+                <div class="page-menu-item">Fotos</div>
+                <div class="page-menu-item">Videos</div>
+                <div class="page-menu-item">Eventos</div>
+                <div class="page-menu-item">Comunidad</div>
+                <div class="page-menu-item">Más</div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Create Post -->
+                <div class="section-card">
+                    <div class="create-post">
+                        <div class="post-profile"></div>
+                        <div class="post-input">¿Qué estás pensando?</div>
+                    </div>
+                    <div style="display: flex; border-top: 1px solid #e4e6eb; padding-top: 8px; justify-content: space-around;">
+                        <div class="post-action">📷 Foto/video</div>
+                        <div class="post-action">🎬 Reel</div>
+                        <div class="post-action">📅 Evento</div>
+                    </div>
+                </div>
+
+                <!-- Posts -->
+                <div class="section-card">
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-profile"></div>
+                            <div class="post-info">
+                                <div class="post-author">HBC</div>
+                                <div class="post-time">Hace 3 horas · 🌎</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            Lo que para ti es poco, para ellos es mucho
+                        </div>
+                        <img class="post-image" src="../public/img/pexels-timur-weber-9533315.jpg" alt="Imagen de publicación">
+                        <div class="post-actions">
+                            <div class="post-action">👍 Me gusta</div>
+                            <div class="post-action">💬 Comentar</div>
+                            <div class="post-action">↪️ Compartir</div>
+                        </div>
+                    </div>
+
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-profile"></div>
+                            <div class="post-info">
+                                <div class="post-author">HBC</div>
+                                <div class="post-time">Ayer a las 15:30 · 🌎</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            Transmite autenticidad y libertad en un entorno urbano.
+                        </div>
+                        <img class="post-image" src="../public/img/pexels-edgarlara-14446855.jpg">
+                        <div class="post-actions">
+                            <div class="post-action">👍 Me gusta</div>
+                            <div class="post-action">💬 Comentar</div>
+                            <div class="post-action">↪️ Compartir</div>
+                        </div>
+                    </div>
+
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-profile"></div>
+                            <div class="post-info">
+                                <div class="post-author">HBC</div>
+                                <div class="post-time">Ayer a las 15:30 · 🌎</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            Tu ayuda puede significar mucho
+                        </div>
+                        <img class="post-image" src="../public/img//pexels-lagosfoodbank-9090855.jpg"alt="Imagen de publicación">
+                        <div class="post-actions">
+                            <div class="post-action">👍 Me gusta</div>
+                            <div class="post-action">💬 Comentar</div>
+                            <div class="post-action">↪️ Compartir</div>
+                        </div>
+                    </div>
+
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-profile"></div>
+                            <div class="post-info">
+                                <div class="post-author">HBC</div>
+                                <div class="post-time">Ayer a las 15:30 · 🌎</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            Ayudar no cambia el mundo entero, pero sí cambia el mundo de alguien.
+                        </div>
+                        <img class="post-image" src="../public/img//pexels-mart-production-8078361.jpg" alt="Imagen de publicación">
+                        <div class="post-actions">
+                            <div class="post-action">👍 Me gusta</div>
+                            <div class="post-action">💬 Comentar</div>
+                            <div class="post-action">↪️ Compartir</div>
+                        </div>
+                    </div>
+
+                    <div class="post">
+                        <div class="post-header">
+                            <div class="post-profile"></div>
+                            <div class="post-info">
+                                <div class="post-author">HBC</div>
+                                <div class="post-time">Ayer a las 15:30 · 🌎</div>
+                            </div>
+                        </div>
+                        <div class="post-content">
+                            La verdadera grandeza se encuentra en tender la mano a quien más lo necesita.
+                        </div>
+                        <img class="post-image" src="../public/img/pexels-rdne-6646978.jpg" alt="Imagen de publicación">
+                        <div class="post-actions">
+                            <div class="post-action">👍 Me gusta</div>
+                            <div class="post-action">💬 Comentar</div>
+                            <div class="post-action">↪️ Compartir</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- About Section -->
+                <div class="section-card">
+                    <h2 class="section-title">Información</h2>
+                    <ul class="about-list">
+                        <li class="about-item">
+                            <div class="about-icon">📍</div>
+                            <div>Ocaña, Norte de Santander, Colombia</div>
+                        </li>
+                        <li class="about-item">
+                            <div class="about-icon">📞</div>
+                            <div>+123 456 7890</div>
+                        </li>
+                        <li class="about-item">
+                            <div class="about-icon">✉️</div>
+                            <div>hbc@gmail.com</div>
+                        </li>
+                        <li class="about-item">
+                            <div class="about-icon">🌐</div>
+                            <div>www.hbc.com</div>
+                        </li>
+                    </ul>
+                    <div class="view-all">Ver todo</div>
+                </div>
+
+                <!-- Photos Section -->
+                <div class="section-card">
+                    <h2 class="section-title">Fotos</h2>
+                    <div class="photos-grid">
+                        <div class="photo-item" style="background-image: url('../public/img/pexels-edgarlara-14446855.jpg')"></div>
+                        <div class="photo-item" style="background-image: url('../public/img/pexels-jsme-mila-523821574-16364307.jpg')"></div>
+                        <div class="photo-item" style="background-image: url('../public/img/pexels-lagosfoodbank-9090855.jpg')"></div>
+                        <div class="photo-item" style="background-image: url('../public/img/pexels-mart-production-8078361.jpg')"></div>
+                        <div class="photo-item" style="background-image: url('../public/img/pexels-mart-production-8078376.jpg')"></div>
+                        <div class="photo-item" style="background-image: url('../public/img/pexels-rdne-6646883.jpg')"></div>
+                        <div class="photo-item" style="background-image: url('../public/img/pexels-rdne-6646978.jpg')"></div>
+                        <div class="photo-item" style="background-image: url('../public/img/pexels-streetwindy-3101214.jpg')"></div>
+                        <div class="photo-item" style="background-image: url('../public/img/pexels-timur-weber-9532265.jpg')"></div>
+                    </div>
+                    <div class="view-all">Ver todas las fotos</div>
+                </div>
+
+                <!-- Suggested Pages -->
+                <div class="section-card">
+                    <h2 class="section-title">Páginas relacionadas</h2>
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <div style="width: 60px; height: 60px; border-radius: 8px; background-color: #e4e6eb; margin-right: 12px;"></div>
+                        <div>
+                            <div style="font-weight: 600;">Página Similar 1</div>
+                            <div style="color: #65676b; font-size: 13px;">Empresa · 10K seguidores</div>
+                            <div class="action-button primary-button" style="margin-top: 4px; padding: 4px 12px; font-size: 13px;">Me gusta</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                        <div style="width: 60px; height: 60px; border-radius: 8px; background-color: #e4e6eb; margin-right: 12px;"></div>
+                        <div>
+                            <div style="font-weight: 600;">Página Similar 2</div>
+                            <div style="color: #65676b; font-size: 13px;">Organización · 5K seguidores</div>
+                            <div class="action-button primary-button" style="margin-top: 4px; padding: 4px 12px; font-size: 13px;">Me gusta</div>
+                        </div>
+                    </div>
+                    <div class="view-all">Ver todo</div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

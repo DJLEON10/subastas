@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gracias por la Información - Ayuda Habitantes de Calle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Modelo 1 - Minimalista Elegante */
+        .model-1 {
+            background: linear-gradient(135deg, #0f1941, #172654);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .model-1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .container-1 {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 600px;
+            animation: slideIn 1s ease-out;
+        }
+
+        .container-1 h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #87CEEB, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .container-1 p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-1 {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #4169E1, #87CEEB);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(65, 105, 225, 0.4);
+        }
+
+        .btn-1:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(65, 105, 225, 0.6);
+        }
+
+        /* Modelo 2 - Card Central con Iconos */
+        .model-2 {
+            background: linear-gradient(135deg, #0f1941, #172654);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .card-2 {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 3rem;
+            max-width: 500px;
+            text-align: center;
+            border: 2px solid rgba(135, 206, 235, 0.3);
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .icon-2 {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(45deg, #4169E1, #87CEEB);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .card-2 h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #87CEEB;
+        }
+
+        .card-2 p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .btn-2 {
+            background: linear-gradient(135deg, #4169E1, #1E90FF);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-2:hover {
+            background: linear-gradient(135deg, #1E90FF, #4169E1);
+            transform: scale(1.05);
+        }
+
+        /* Modelo 3 - Layout Dividido */
+        .model-3 {
+            background: linear-gradient(135deg, #0f1941, #172654);
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+        }
+
+        .left-side {
+            padding: 3rem;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .right-side {
+            background: rgba(255, 255, 255, 0.1);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            animation: slideInRight 1s ease-out;
+        }
+
+        .left-side h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: #87CEEB;
+        }
+
+        .left-side p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .heart-icon {
+            font-size: 8rem;
+            color: #87CEEB;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+
+        /* Modelo 4 - Estilo Moderno con Efectos */
+        .model-4 {
+            background: linear-gradient(135deg, #0f1941, #172654);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .model-4::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(135, 206, 235, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        .content-4 {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .title-4 {
+            font-size: 4rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #87CEEB, #4169E1, #87CEEB);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 3s ease infinite;
+        }
+
+        .subtitle-4 {
+            font-size: 1.4rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+
+        .cta-button {
+            padding: 18px 50px;
+            background: transparent;
+            border: 2px solid #87CEEB;
+            color: #87CEEB;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(135, 206, 235, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            background: #87CEEB;
+            color: #0f1941;
+            transform: translateY(-2px);
+        }
+
+        /* Animaciones */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(135, 206, 235, 0.5); }
+            to { text-shadow: 0 0 30px rgba(135, 206, 235, 0.8); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Selector de modelos */
+        .model-selector {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .model-selector select {
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            background: #172654;
+            color: white;
+        }
+
+        .model {
+            display: none;
+        }
+
+        .model.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .model-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .right-side {
+                height: 50vh;
+            }
+            
+            .container-1 h1, .title-4 {
+                font-size: 2rem;
+            }
+            
+            .left-side h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!--
+    <div class="model-selector"  type="hidden">
+        <select id="modelSelector" onchange="changeModel()">
+            <option value="1">Modelo 1 - Minimalista</option>
+            <option value="2">Modelo 2 - Card Central</option>
+            <option value="3" selected>Modelo 3 - Layout Dividido</option>
+            <option value="4">Modelo 4 - Moderno</option>
+        </select>
+    </div>
+-->
+    <!-- Modelo 1 -->
+    <div id="model1" class="model">
+        <div class="model-1">
+            <div class="container-1">
+                <h1>¡Gracias!</h1>
+                <p>Tu información ha sido recibida exitosamente. Juntos construimos una comunidad más solidaria para quienes más lo necesitan.</p>
+                <a href="http://localhost/proyecto/public" class="btn-1">Volver a Nuestro Sitio Oficial</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modelo 2 -->
+    <div id="model2" class="model">
+        <div class="model-2">
+            <div class="card-2">
+                <div class="icon-2">💙</div>
+                <h2>¡Gracias!</h2>
+                <p>Hemos recibido tu información. Tu colaboración nos ayuda a seguir brindando apoyo a habitantes de calle. Cada gesto cuenta en nuestra misión de crear una sociedad más inclusiva.</p>
+                <a href="http://localhost/proyecto/public" class="btn-2">Volver a Nuestro Sitio Oficial</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modelo 3 -->
+    <div id="model3" class="model active">
+        <div class="model-3">
+            <div class="left-side">
+                <h1>¡Gracias por tu apoyo!</h1>
+                <p>Tu información ha sido registrada correctamente. Con tu ayuda, seguimos trabajando para mejorar la calidad de vida de los habitantes de calle en nuestra comunidad.</p>
+                <a href="http://localhost/proyecto/public" class="btn-1">Volver a Nuestro Sitio Oficial</a>
+            </div>
+            <div class="right-side">
+                <div class="heart-icon">🤝</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modelo 4 -->
+    <div id="model4" class="model">
+        <div class="model-4">
+            <div class="content-4">
+                <h1 class="title-4">GRACIAS</h1>
+                <p class="subtitle-4">Por ser parte del cambio que nuestra comunidad necesita</p>
+                <a href="http://localhost/proyecto/public" class="cta-button">Volver a Nuestro Sitio Oficial</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function changeModel() {
+            const selector = document.getElementById('modelSelector');
+            const selectedModel = selector.value;
+            
+            // Ocultar todos los modelos
+            document.querySelectorAll('.model').forEach(model => {
+                model.classList.remove('active');
+            });
+            
+            // Mostrar el modelo seleccionado
+            document.getElementById('model' + selectedModel).classList.add('active');
+        }
+
+        // Añadir efecto de partículas flotantes
+        function createFloatingParticles() {
+            const activeModel = document.querySelector('.model.active');
+            if (!activeModel) return;
+            
+            for (let i = 0; i < 5; i++) {
+                const particle = document.createElement('div');
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${Math.random() * 6 + 2}px;
+                    height: ${Math.random() * 6 + 2}px;
+                    background: rgba(135, 206, 235, ${Math.random() * 0.5 + 0.3});
+                    border-radius: 50%;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation: float ${Math.random() * 10 + 10}s ease-in-out infinite;
+                    pointer-events: none;
+                `;
+                activeModel.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 15000);
+            }
+        }
+
+        // Crear partículas cada 3 segundos
+        setInterval(createFloatingParticles, 3000);
+        
+        // Crear partículas iniciales
+        setTimeout(createFloatingParticles, 1000);
+    </script>
+</body>
+</html>

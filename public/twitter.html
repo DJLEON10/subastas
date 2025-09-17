@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil de X</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    
+    body {
+      background-color: #000;
+      color: #e7e9ea;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    
+    .container {
+      display: flex;
+      width: 100%;
+      max-width: 1280px;
+    }
+    
+    /* Left sidebar styles */
+    .left-sidebar {
+      width: 275px;
+      padding: 0 12px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-right: 1px solid #2f3336;
+    }
+    
+    .x-logo {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      margin: 12px 0;
+    }
+    
+    .x-logo svg {
+      width: 30px;
+      height: 30px;
+      fill: #e7e9ea;
+    }
+    
+    .main-nav {
+      margin-bottom: 8px;
+    }
+    
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      margin: 4px 0;
+      border-radius: 30px;
+      font-size: 20px;
+      font-weight: 400;
+      text-decoration: none;
+      color: #e7e9ea;
+      transition: background-color 0.2s;
+    }
+    
+    .nav-item:hover {
+      background-color: rgba(231, 233, 234, 0.1);
+    }
+    
+    .nav-item svg {
+      margin-right: 16px;
+      width: 24px;
+      height: 24px;
+      fill: #e7e9ea;
+    }
+    
+    .post-btn {
+      background-color: #1d9bf0;
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 16px 0;
+      font-size: 17px;
+      font-weight: bold;
+      width: 90%;
+      cursor: pointer;
+      margin: 16px auto;
+      display: block;
+    }
+    
+    .user-profile {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      border-radius: 30px;
+      margin-top: auto;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    
+    .user-profile:hover {
+      background-color: rgba(231, 233, 234, 0.1);
+    }
+    
+    .profile-mini {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-image: url("../img/recurso1.png");
+      background-size: cover;
+      margin-right: 12px;
+    }
+    
+    .profile-mini-info {
+      flex: 1;
+    }
+    
+    .profile-mini-name {
+      font-weight: bold;
+      font-size: 15px;
+    }
+    
+    .profile-mini-handle {
+      color: #71767b;
+      font-size: 14px;
+    }
+    
+    /* Main content styles */
+    .main-content {
+      flex: 1;
+      max-width: 600px;
+      border-left: 1px solid #2f3336;
+      border-right: 1px solid #2f3336;
+    }
+    
+    .profile-header {
+      position: relative;
+    }
+    
+    .back-button {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    .back-arrow {
+      color: #fff;
+      font-size: 20px;
+    }
+    
+    .header-info {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #2f3336;
+    }
+    
+    .header-text {
+      margin-left: 32px;
+    }
+    
+    .header-name {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    
+    .header-posts {
+      color: #71767b;
+      font-size: 13px;
+    }
+    
+    .banner-img {
+      width: 100%;
+      height: 200px;
+      background-image: url("../img/pexels-timur-weber-9533079-1.jpg");
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .profile-photo {
+      position: absolute;
+      bottom: -60px;
+      left: 16px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid #000;
+      background-image: url("../img/recurso1.png");
+      background-size: cover;
+    }
+    
+    .profile-actions {
+      display: flex;
+      justify-content: flex-end;
+      padding: 16px;
+    }
+    
+    .edit-profile-btn {
+      background-color: transparent;
+      color: #e7e9ea;
+      border: 1px solid #536471;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .profile-info {
+      padding: 16px;
+      padding-top: 48px;
+    }
+    
+    .profile-name {
+      font-size: 20px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .verified-badge {
+      color: #1d9bf0;
+      font-size: 14px;
+    }
+    
+    .profile-username {
+      color: #71767b;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+    
+    .profile-bio {
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    
+    .profile-metadata {
+      display: flex;
+      gap: 12px;
+      color: #71767b;
+      font-size: 15px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .profile-metadata a {
+      color: #1d9bf0;
+      text-decoration: none;
+    }
+    
+    .profile-metadata i {
+      margin-right: 4px;
+    }
+    
+    .profile-stats {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+    }
+    
+    .stat-number {
+      font-weight: bold;
+      color: #e7e9ea;
+    }
+    
+    .stat-label {
+      color: #71767b;
+    }
+    
+    .profile-tabs {
+      display: flex;
+      border-bottom: 1px solid #2f3336;
+      margin-top: 16px;
+    }
+    
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 16px 0;
+      color: #71767b;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    .tab.active {
+      color: #e7e9ea;
+      border-bottom: 4px solid #1d9bf0;
+    }
+    
+    .post {
+      padding: 12px 16px;
+      border-bottom: 1px solid #2f3336;
+    }
+    
+    .post-header {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .post-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-image: url("../img/recurso1.png");
+      background-size: cover;
+    }
+    
+    .post-user-info {
+      flex: 1;
+    }
+    
+    .post-user-name {
+      font-weight: bold;
+    }
+    
+    .post-user-handle, .post-time {
+      color: #71767b;
+    }
+    
+    .post-content {
+      margin-top: 4px;
+      margin-left: 48px;
+      line-height: 1.3;
+    }
+    
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      margin-left: 48px;
+      color: #71767b;
+    }
+    
+    .not-verified-banner {
+      background-color: rgba(29, 155, 240, 0.1);
+      border: 1px solid #1d9bf0;
+      border-radius: 16px;
+      padding: 16px;
+      margin: 16px;
+      position: relative;
+    }
+    
+    .close-banner {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .verify-button {
+      background-color: #1d9bf0;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    
+    /* Right sidebar styles */
+    .right-sidebar {
+      width: 350px;
+      padding: 0 16px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    
+    .search-container {
+      position: sticky;
+      top: 5px;
+      z-index: 1;
+      padding: 5px 0;
+      background-color: #000;
+    }
+    
+    .search-box {
+      background-color: #202327;
+      border-radius: 30px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      margin: 8px 0;
+    }
+    
+    .search-icon {
+      margin-right: 12px;
+      color: #71767b;
+    }
+    
+    .search-input {
+      background: transparent;
+      border: none;
+      color: #e7e9ea;
+      flex: 1;
+      font-size: 15px;
+      outline: none;
+    }
+    
+    .sidebar-section {
+      background-color: #16181c;
+      border-radius: 16px;
+      margin: 16px 0;
+      overflow: hidden;
+    }
+    
+    .sidebar-header {
+      padding: 12px 16px;
+      font-size: 20px;
+      font-weight: bold;
+      border-bottom: 1px solid #2f3336;
+    }
+    
+    .trending-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid #2f3336;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    
+    .trending-item:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+    
+    .trending-header {
+      font-size: 13px;
+      color: #71767b;
+    }
+    
+    .trending-title {
+      font-weight: bold;
+      margin: 4px 0;
+    }
+    
+    .trending-stats {
+      font-size: 13px;
+      color: #71767b;
+    }
+    
+    .who-to-follow {
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #2f3336;
+    }
+    
+    .who-to-follow:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+    
+    .follow-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 12px;
+      background-color: #333;
+    }
+    
+    .follow-info {
+      flex: 1;
+    }
+    
+    .follow-name {
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+    
+    .follow-handle {
+      color: #71767b;
+      font-size: 14px;
+    }
+    
+    .follow-btn {
+      background-color: #e7e9ea;
+      color: #000;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .sidebar-show-more {
+      color: #1d9bf0;
+      padding: 16px;
+      cursor: pointer;
+    }
+    
+    .live-section {
+      padding: 16px;
+      border-bottom: 1px solid #2f3336;
+    }
+    
+    .live-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+    
+    .live-stream {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    
+    .live-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #71767b;
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .live-text {
+      flex: 1;
+    }
+    
+    .live-indicator {
+      background-color: #f91880;
+      border-radius: 4px;
+      padding: 2px 6px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: bold;
+      margin-right: 4px;
+    }
+    
+    .live-views {
+      margin-left: auto;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    
+    footer {
+      padding: 16px;
+      font-size: 13px;
+      color: #71767b;
+    }
+    
+    footer a {
+      color: #71767b;
+      text-decoration: none;
+      margin-right: 12px;
+    }
+    
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Left sidebar -->
+    <div class="left-sidebar">
+      <div class="x-logo">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <g>
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+          </g>
+        </svg>
+      </div>
+      
+      <nav class="main-nav">
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <g>
+              <path d="M21.591 7.146L12.52 1.157c-.316-.21-.724-.21-1.04 0l-9.071 5.99c-.26.173-.409.456-.409.757v13.183c0 .502.418.913.929.913h6.638c.511 0 .929-.41.929-.913v-7.075h3.008v7.075c0 .502.418.913.929.913h6.639c.51 0 .928-.41.928-.913V7.904c0-.301-.158-.584-.408-.758zM20 20l-4.5.01.011-7.075c0-.502-.418-.913-.928-.913H9.44c-.511 0-.929.41-.929.913L8.5 20H4V8.773l8.011-5.342L20 8.764z"></path>
+            </g>
+          </svg>
+          Home
+        </a>
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <g>
+              <path d="M10.25 3.75c-3.59 0-6.5 2.91-6.5 6.5s2.91 6.5 6.5 6.5c1.795 0 3.419-.726 4.596-1.904 1.178-1.177 1.904-2.801 1.904-4.596 0-3.59-2.91-6.5-6.5-6.5zm-8.5 6.5c0-4.694 3.806-8.5 8.5-8.5s8.5 3.806 8.5 8.5c0 1.986-.682 3.815-1.824 5.262l4.781 4.781-1.414 1.414-4.781-4.781c-1.447 1.142-3.276 1.824-5.262 1.824-4.694 0-8.5-3.806-8.5-8.5z"></path>
+            </g>
+          </svg>
+          Explore
+        </a>
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <g>
+              <path d="M19.993 9.042C19.48 5.017 16.054 2 11.996 2s-7.49 3.021-7.999 7.051L2.866 18H7.1c.463 2.282 2.481 4 4.9 4s4.437-1.718 4.9-4h4.236l-1.143-8.958zM12 20c-1.306 0-2.417-.835-2.829-2h5.658c-.412 1.165-1.523 2-2.829 2zm-6.866-4l.847-6.698C6.364 6.272 8.941 4 11.996 4s5.627 2.268 6.013 5.295L18.864 16H5.134z"></path>
+            </g>
+          </svg>
+          Notifications
+        </a>
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <g>
+              <path d="M1.998 5.5c0-1.381 1.119-2.5 2.5-2.5h15c1.381 0 2.5 1.119 2.5 2.5v13c0 1.381-1.119 2.5-2.5 2.5h-15c-1.381 0-2.5-1.119-2.5-2.5v-13zm2.5-.5c-.276 0-.5.224-.5.5v2.764l8 3.638 8-3.636V5.5c0-.276-.224-.5-.5-.5h-15zm15.5 5.463l-8 3.636-8-3.638V18.5c0 .276.224.5.5.5h15c.276 0 .5-.224.5-.5v-8.037z"></path>
+            </g>
+          </svg>
+          Messages
+        </a>
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <g>
+              <path d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v15c0 1.38-1.119 2.5-2.5 2.5h-11C5.119 22 4 20.88 4 19.5v-15zM6.5 4c-.28 0-.5.22-.5.5v15c0 .28.22.5.5.5h11c.28 0 .5-.22.5-.5v-15c0-.28-.22-.5-.5-.5h-11z"></path><path d="M13.5 11.5H16v2.5h-2.5v-2.5zm-5-5H11v2.5H8.5V6.5zM8.5 11.5H11V14H8.5v-2.5z"></path>
+            </g>
+          </svg>
+          Grok
+        </a>
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <g>
+              <path d="M7.501 19.917L7.471 21H.472l.029-1.027c.184-6.618 3.736-8.977 7-8.977.963 0 1.95.212 2.87.672a9.115 9.115 0 0 0 1.304-3.233C12.094 7.228 12.035 6 12 6c0-.29-.028-.525-.099-.715C11.788 4.97 11.585 5 11.341 5c-1.562 0-2.289-1.687-2.289-3 0-1.5 1.24-3 3.13-3 1.795 0 2.885 1.75 2.885 3.5 0 3.75-2.153 8.032-3.536 10.367a9.8 9.8 0 0 0 2.97.133c4.5-.333 4.5 5.5 4.5 5.5v.5h-5.289l-.03-1.067c-.129-4.625-2.549-5.317-3.95-5.267-2.456.086-2.18 4.5-2.18 4.5l-.05 1.75z"></path><path d="M14 11.75a4.988 4.988 0 0 1 5-4.975c2.761 0 5 2.216 5 4.975a4.988 4.988 0 0 1-5 4.975A4.988 4.988 0 0 1 14 11.75zm5 2.675c1.463 0 2.75-1.175 2.75-2.675s-1.287-2.675-2.75-2.675c-1.463 0-2.75 1.175-2.75 2.675s1.287 2.675 2.75 2.675z"></path>
+            </g>
+          </svg>
+          Communities
+        </a>
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <g>
+              <path d="M5.651 19h12.698c-.337-1.8-1.023-3.21-1.945-4.19C15.318 13.65 13.838 13 12 13s-3.317.65-4.404 1.81c-.922.98-1.608 2.39-1.945 4.19zm.486-5.56C7.627 11.85 9.648 11 12 11s4.373.85 5.863 2.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H3.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46zM12 4c-1.105 0-2 .9-2 2s.895 2 2 2 2-.9 2-2-.895-2-2-2zM8 6c0-2.21 1.791-4 4-4s4 1.79 4 4-1.791 4-4 4-4-1.79-4-4z"></path>
+            </g>
+          </svg>
+          Profile
+        </a>
+        <a href="#" class="nav-item">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <g>
+              <path d="M3.75 12c0-4.56 3.69-8.25 8.25-8.25s8.25 3.69 8.25 8.25-3.69 8.25-8.25 8.25S3.75 16.56 3.75 12zM12 1.75C6.34 1.75 1.75 6.34 1.75 12S6.34 22.25 12 22.25 22.25 17.66 22.25 12 17.66 1.75 12 1.75zm-4.75 11.5c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25S6 11.31 6 12s.56 1.25 1.25 1.25zm9.5 0c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25-1.25.56-1.25 1.25.56 1.25 1.25 1.25zM13.25 12c0 .69-.56 1.25-1.25 1.25s-1.25-.56-1.25-1.25.56-1.25 1.25-1.25 1.25.56 1.25 1.25z"></path>
+            </g>
+          </svg>
+          More
+        </a>
+      </nav>
+      
+      <button class="post-btn">Post</button>
+      
+      <div class="user-profile">
+        <div class="profile-mini"></div>
+        <div class="profile-mini-info">
+          <div class="profile-mini-name">HBC</div>
+          <div class="profile-mini-handle">@hbc_ocana</div>
+        </div>
+        <div class="profile-more">···</div>
+      </div>
+    </div>
+    
+    <!-- Main content -->
+    <div class="main-content">
+      <div class="header-info">
+        <div class="back-button">
+          <span class="back-arrow">←</span>
+        </div>
+        <div class="header-text">
+          <div class="header-name">HBC</div>
+          <div class="header-posts">0 posts</div>
+        </div>
+      </div>
+      
+      <div class="profile-header">
+        <div class="banner-img"><img src="" alt=""></div>
+        <div class="profile-photo"></div>
+        <div class="profile-actions">
+          <button class="edit-profile-btn">Edit profile</button>
+        </div>
+      </div>
+      
+      <div class="profile-info">
+        <div class="profile-name" style="padding: 5px;">
+          HBC
+          <span class="verified-badge">✓</span>
+        </div>
+        <div class="profile-username">@hbc_ocana</div>
+        <div class="profile-bio">
+          Ser una organización líder en la transformación social, brindando oportunidades dignas y sostenibles para la reintegración plena a la sociedad.
+        </div>
+        
+        <div class="profile-metadata">
+          <span>
+            <i>📍</i>
+            Ocaña, Colombia
+          </span>
+          <span>
+            <i>🔗</i>
+            <a href="#">sitio-web.com</a>
+          </span>
+          <span>
+            <i>📅</i>
+            Se unió en Mayo 2025
+          </span>
+        </div>
+        
+        <div class="profile-stats">
+          <div class="stat">
+            <span class="stat-number">1k</span>
+            <span class="stat-label">Siguiendo</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">1.5k</span>
+            <span class="stat-label">Seguidores</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="not-verified-banner">
+        <span class="close-banner">×</span>
+        <h3>You aren't verified yet ✓</h3>
+        <p>Get verified for boosted replies, analytics, ad-free browsing, and more. Upgrade your profile now.</p>
+        <button class="verify-button">Get verified</button>
+      </div>
+      
+      <div class="profile-tabs">
+        <div class="tab active">Posts</div>
+        <div class="tab">Replies</div>
+        <div class="tab">Highlights</div>
+        <div class="tab">Media</div>
+        <div class="tab">Likes</div>
+      </div>
+      
+      <!-- Contenido vacío ya que tienen 0 posts -->
+    </div>
+    
+    </div>
+</body>
+    <!-- Right sidebar -->
+    
+    
