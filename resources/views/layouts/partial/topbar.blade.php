@@ -6,7 +6,8 @@
 		</li>
     </ul>
 	<div style="color: white; margin-left: 5px;">
-	<h1 class="m-0">HBC Asistencia Humanitaria</h1>
+	<h1 class="m-0">SubasGo </h1>
+	<p>Siempre tu mejor opcion</p>
 	</div>
 	
     <ul class="navbar-nav ml-auto">

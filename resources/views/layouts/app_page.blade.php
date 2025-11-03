@@ -35,6 +35,7 @@
     <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
+    @livewireStyles
    
 </head>
 
@@ -58,6 +59,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     @stack('scripts')
+    @livewireScripts
 </body>
 
 </html>

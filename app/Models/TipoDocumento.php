@@ -27,8 +27,5 @@ class TipoDocumento extends Model
     ];
 
     // Relación con Habitante
-    public function habitantes()
-    {
-        return $this->hasMany(Habitante::class, 'tipodocumento_id');
-    }
+
 }

@@ -15,7 +15,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>SubastasGo</title>
+    <link rel="icon" type="image/png" href="{{ asset('img/logo-favicon.png') }}">
+
     <!-- DataTables -->
     <link rel="stylesheet" href="{{asset('backend/plugins/datatables-bs4/css/dataTables.bootstrap4.css')}}">
     <link rel="stylesheet" href="{{asset('backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
@@ -51,7 +53,8 @@
     <!-- my styles -->
     <link rel="stylesheet" href="{{asset('../resources/sass/_variables.scss')}}">
     <link rel="stylesheet" href="{{asset('backend/dist/css/style.css')}}">
-   
+    @livewireStyles
+
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @stack('css')
@@ -63,7 +66,10 @@
         @include('layouts.partial.sidebar')
         @yield('content')
         @include('layouts.partial.footer')
+        @livewireScripts
     </div>
+    @livewireScripts
+
 </body>
 <!-- jQuery -->
 <script src="{{asset('backend/plugins/jquery/jquery.min.js')}}"></script>

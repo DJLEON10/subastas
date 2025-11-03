@@ -82,4 +82,46 @@ class DepartamentoController extends Controller
 		$departamento->estado=$request->estado;
 		$departamento->save();
 	}
+
+    public function getDepartamentos(Request $request)
+{
+    // Validar que venga el parámetro pais_id
+    if (!$request->has('pais_id')) {
+        return response()->json(['error' => 'Falta el parámetro pais_id'], 400);
+    }
+
+    $paisId = $request->pais_id;
+
+    // Buscar los departamentos de ese país
+    $detalleDepartamentos = Departamento::where('pais_id', $paisId)
+        ->select('_id', 'nombre')
+        ->orderBy('nombre', 'asc')
+        ->get();
+
+    // Si hay resultados, devolverlos
+    if ($detalleDepartamentos->count() > 0) {
+        return response()->json($detalleDepartamentos);
+    }
+
+    // Si no hay departamentos
+    return response()->json([]);
+}
+
+public function getDepartamentosEdit(Request $request)
+{
+    if ($request->ajax()) 
+    {
+        if ($request->ajax()) {
+        $detalleDepartamentos = Departamento::select ('departamentos.id','departamentos.nombre')
+        ->join('paises', 'paises.id', '=', 'departamentos.pais_id')
+        ->where('departamentos.pais_id', $request->pais_id)
+        ->orderBy('departamentos.nombre')
+        ->get();
+        foreach ($detalleDepartamentos as $detalleDepartamento) {
+            $departamentosArray[$detalleDepartamento->id] = $detalleDepartamento->nombre;
+        }
+        return response()->json($departamentosArray);
+        }
+    }
+}
 }

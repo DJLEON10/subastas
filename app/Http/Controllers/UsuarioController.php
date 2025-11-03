@@ -27,7 +27,7 @@ class UsuarioController extends Controller
 		$users = User::where(function ($query) use ($search) {
 			if ($search) {
 				$query->where('name', 'like', "%{$search}%")
-					  ->orWhere('email', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%");
 			}
 		})->paginate($perPage);
         return view('users.index',compact('users'));
@@ -41,9 +41,7 @@ class UsuarioController extends Controller
 
     public function store(UsuarioRequest $request)
     {
-        // Añadir log para verificar los datos recibidos
-		//\Log::info('Datos recibidos en el formulario:', $request->all());
-		
+
 		$image = $request->file('image');
 		$slug = Str::slug($request->name);
 		if (isset($image))
@@ -62,11 +60,12 @@ class UsuarioController extends Controller
 
 		$user = new User();
 		$user->name = $request->input('name');
+		$user->documento = $request->input('documento');
+		$user->telefono = $request->input('telefono');
 		$user->email = $request->input('email');
 		$user->password = Hash::make($request->input('password'));
 		$user->remember_token =  Str::random(60);
-		$user->photo = $imagename;
-		$user->rol = 0;
+		$user->rol =$request->input('rol');
 		$user->save();
     
         return redirect()->route('users.index')->with('successMsg','El registro se guardó exitosamente');

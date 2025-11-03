@@ -14,9 +14,8 @@ use App\Http\Controllers\HabitantesController;
 use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\LoginController;
-
-
-
+use App\Http\Controllers\ProductoController;
+use App\Models\Departamento;
 
 Auth::routes();
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
@@ -44,11 +43,13 @@ Route::group(['middleware' => ['auth']], function() {
 	
 	Route::resource('departamentos', DepartamentoController::class);
 	Route::get('cambioestadodepartamento', [DepartamentoController::class, 'cambioestadodepartamento'])->name('cambioestadodepartamento');
-	
+	Route::get('getDepartamentos', [DepartamentoController::class, 'getDepartamentos'])->name('getDepartamentos');
+	Route::get('getDepartamentosEdit', [DepartamentoController::class, 'getDepartamentosEdit'])->name('getDepartamentosEdit');
+
 	Route::resource('ciudads', CiudadController::class);
 	Route::get('cambioestadociudad', [CiudadController::class, 'cambioestadociudad'])->name('cambioestadociudad');
-	Route::get('getDepartamentos', [CiudadController::class, 'getDepartamentos'])->name('getDepartamentos');
-    
+	Route::get('getCiudads', [CiudadController::class, 'getCiudads'])->name('getCiudads');
+
 	Route::resource('tipodocumentos', TipodocumentoController::class);
 	Route::get('cambioestadotipodocumento', [TipoDocumentoController::class, 'cambioestadotipodocumento'])->name('cambioestadotipodocumento');
 
@@ -59,12 +60,8 @@ Route::group(['middleware' => ['auth']], function() {
 
 //personas
 
-Route::resource('habitantes', HabitantesController::class);
-Route::get('cambioestadohabitante', [HabitantesController::class, 'cambioestadohabitante'])->name('cambioestadohabitante');
-Route::get('getDepartamentos', [HabitantesController::class, 'getDepartamentos'])->name('getDepartamentos');
-Route::get('getDepartamentosEdit', [HabitantesController::class, 'getDepartamentosEdit'])->name('getDepartamentosEdit');
-Route::get('getCiudads', [HabitantesController::class, 'getCiudads'])->name('getCiudads');
-Route::get('getCiudadsEdit', [HabitantesController::class, 'getCiudadsEdit'])->name('getCiudadsEdit');
+Route::resource('productos', ProductoController::class);
+Route::get('cambioestadoproducto', [ProductoController::class, 'cambioestadoproducto'])->name('cambioestadoproducto');
 
 Route::resource('familiares', FamiliarController::class)->parameters([
     'familiares' => 'familiar'

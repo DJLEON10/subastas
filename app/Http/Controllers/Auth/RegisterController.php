@@ -34,7 +34,10 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'rol' => '0',
+            'rol' => $data['rol'],
+            'documento' => $data['documento'],
+            'telefono' => $data['telefono'],
+
             'estado' => '1',
         ]);
     }
@@ -45,11 +48,6 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
 
         $user = $this->create($request->all());
-
-        // NO logueamos al usuario
-        // $this->guard()->login($user);
-
-        // Redirigir al login con mensaje
         return redirect('/login')->with('success', 'Registro exitoso. Por favor inicia sesión.');
     }
 }

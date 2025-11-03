@@ -1,6 +1,6 @@
 // Body
 body {
-    background-image: linear-gradient(135deg, #0f1941, #172654);
+    background-image: linear-gradient(135deg, #3B0B1A, #3B0B1A);
     color: white;
     min-height: 100vh;
     overflow-x: hidden;
@@ -11,12 +11,63 @@ body {
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.contenederlogoregister{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.product-image-wrapper {
+    width: 100%;
+    aspect-ratio: 4 / 3; /* o 1 / 1 para cuadrado, o 16/9 */
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.product-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.product-image-wrapper {
+    width: 100%;
+    aspect-ratio: 4 / 3; /* cambia a 1 / 1 si prefieres cuadrado */
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .product-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* o cover si prefieres llenar */
+    object-position: center;
+  }
+  
+
+.imglogoregister{
+    display: flex;
+    width: 90%;
+}
 .targeticas:nth-child(2)::before {
     background: linear-gradient(90deg, #00c875, #42d392);
 }
-
+.sidebar{
+    background-color: red !important;
+}
+.buscar{
+    background-color: red !important;
+}
 .palabritas{
     color: white !important;
+    border-radius: 12px !important;
 }
 
 :root {
@@ -24,6 +75,13 @@ body {
     --card-bg: rgba(255, 255, 255, 0.08);
     --card-border: rgba(255, 255, 255, 0.1);
   }
+
+  a.nav-link{
+    border-radius: 15px !important;
+    width: auto  !important;
+  }
+
+  
 
 // Typography
 $font-family-sans-serif: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -90,7 +148,7 @@ $line-height-base: 1.6;
 /*#1e88e5*/
 
 .completo {
-    background-image: linear-gradient(135deg, #0f1941, #172654)
+    background-image: linear-gradient(135deg, #3B0B1A, #3B0B1A)
 
 }
 
@@ -316,9 +374,7 @@ color: #105be3;
     transition: 0.6s ;
 
 }
-.login-page {
-    background-image: radial-gradient( white , #868fec);
-}
+
 .contenedorlogo{
     border-top: none;
     background-color: rgba(10, 14, 35, 0.8);
@@ -343,8 +399,9 @@ color: #105be3;
 
     .contenedorlogosi{
         display: flex;
-        background-color: rgba(10, 14, 35, 0.8);
-        padding: 10px ;
+        background-color: rgba(249, 249, 250, 0.8);
+        justify-content: center;
+        align-items: center;
        
     }
     .palabritas{
@@ -519,9 +576,7 @@ background-color: rgba(10, 14, 35, 0.8);
 .main-sidebar.collapsed .contenedorlogosi .imglogo img {
     width: 50px;
 }
-/*.login-page {
-    background-image: radial-gradient( #69DEFF , #B5EFFF);
-}
+/*.
 .card-primary.card-outline {
     border-top: none;
     background-image: radial-gradient( #61CDEA , #69DEFF);

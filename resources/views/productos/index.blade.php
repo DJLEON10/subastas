@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Listado De Habitantes de calle ')
-
+@section('title', 'Listado De Habitantes de Productos ')
 
 
 @section('content')
@@ -20,36 +19,36 @@
                         <div class="card-header bg-secondary">
                             @yield('title')
                             @if(Auth::user()->rol != '0')
-                                <a href="{{ route('habitantes.create') }}" class="btn btn-primary float-right" title="Nuevo">
+                                <a href="{{ route('productos.create') }}" class="btn btn-primary float-right" title="Nuevo">
                                     <i class="fas fa-plus nav-icon"></i>
                                 </a>
                             @endif    
                         </div>
                         
-                        @include('components.search', ['route' => route('habitantes.index')])
+                        @include('components.search', ['route' => route('productos.index')])
                         
                         <div class="card-body">
                             <div class="row">
-                                @foreach($habitantes as $habitante)
-                                    @include('components.user_card', ['habitante' => $habitante])
+                                @foreach($productos as $producto)
+                                    @include('components.user_card', ['producto' => $producto])
                                 @endforeach
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                 <div class="d-flex justify-content-start">
-                                    @if ($habitantes->total() > 0)
+                                    @if ($productos->total() > 0)
                                         <p class="small text-muted mb-0">
                                             {{ __('Mostrando') }}
-                                            <span class="fw-semibold">{{ $habitantes->firstItem() }}</span>
+                                            <span class="fw-semibold">{{ $productos->firstItem() }}</span>
                                             {{ __('a') }}
-                                            <span class="fw-semibold">{{ $habitantes->lastItem() }}</span>
+                                            <span class="fw-semibold">{{ $productos->lastItem() }}</span>
                                             {{ __('de') }}
-                                            <span class="fw-semibold">{{ $habitantes->total() }}</span>
+                                            <span class="fw-semibold">{{ $productos->total() }}</span>
                                             {{ __('resultados') }}
                                         </p>
                                     @endif
                                 </div>
                                 <div class="d-flex justify-content-end">
-                                    {{ $habitantes->appends(['search' => request('search'), 'per_page' => request('per_page')])->links() }}
+                                    {{ $productos->appends(['search' => request('search'), 'per_page' => request('per_page')])->links() }}
                                 </div>
                             </div>
                         </div>
@@ -70,7 +69,7 @@
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "{{ route('cambioestadohabitante') }}",
+                url: "{{ route('cambioestadoproducto') }}",
                 data: {
                     'estado': estado,
                     'id': pais_id,

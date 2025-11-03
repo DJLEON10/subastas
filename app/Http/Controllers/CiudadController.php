@@ -91,16 +91,39 @@ class CiudadController extends Controller
 		}
 		return response()->json(['success' => false, 'message' => 'Ciudad no encontrada.']);
 	}
-	
-	public function getDepartamentos(Request $request)
-	{
-		$detalleDepartamentos = Departamento::select ('departamentos.id','departamentos.nombre')
-		->where('departamentos.pais_id', $request->pais_id)
-		->orderBy('departamentos.nombre')
-		->get();
 
-		if (count($detalleDepartamentos) > 0) {
-            return response()->json($detalleDepartamentos);
-        }
+    public function getCiudads(Request $request)
+{
+    $detalleCiudades = Ciudad::select('_id', 'nombre')
+        ->where('departamento_id', $request->departamento_id)
+        ->orderBy('nombre')
+        ->get();
+
+    if ($detalleCiudades->count() > 0) {
+        return response()->json($detalleCiudades);
+    } else {
+        return response()->json(['message' => 'No se encontraron ciudades'], 404);
+    }
+}
+
+public function getCiudadsEdit(Request $request)
+	{
+		if ($request->ajax()) 
+		{
+			if ($request->ajax()) {
+			$detalleCiudades = Ciudad::select ('ciudads.id','ciudads.nombre')
+			->join('departamentos', 'departamentos.id', '=', 'ciudads.departamento_id')
+			->where('ciudads.departamento_id', $request->departamento_id)
+			->orderBy('ciudads.nombre')
+			->get();
+			foreach ($detalleCiudades as $detalleCiudad) {
+				$ciudadsArray[$detalleCiudad->id] = $detalleCiudad->nombre;
+			}
+			return response()->json($ciudadsArray);
+			}
+		}
 	}
+
+	
+
 }

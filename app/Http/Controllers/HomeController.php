@@ -28,42 +28,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $total = Habitante::count();
-        $totalf = Familiar::count();
-        $totalu = User::where('rol', 1)->count();
-
-        $contador1 = Habitante::where('comuna', 'comuna_1')->count();
-        $contador2 = Habitante::where('comuna', 'comuna_2')->count();
-        $contador3 = Habitante::where('comuna', 'comuna_3')->count();
-        $contador4 = Habitante::where('comuna', 'comuna_4')->count();
-        $contador5 = Habitante::where('comuna', 'comuna_5')->count();
-        $contador6 = Habitante::where('comuna', 'comuna_6')->count();
+        $users = User::all(); // Obtener todos los usuarios
+        return view('home', compact('users'));
+    }
     
-        return view('home', compact(
-            'contador1', 'contador2', 'contador3',
-            'contador4', 'contador5', 'contador6','total','totalf','totalu'
-        ));
-    }
-
-
-public function graficaHabitantes()
-{
-    $habitantesPorMes = DB::table('habitantes')
-        ->selectRaw('MONTH(created_at) as mes, COUNT(*) as total')
-        ->whereYear('created_at', Carbon::now()->year)
-        ->groupBy('mes')
-        ->orderBy('mes')
-        ->pluck('total', 'mes');
-
-    // Completa los meses vacíos con cero
-    $datos = [];
-    for ($i = 1; $i <= 12; $i++) {
-        $datos[] = $habitantesPorMes->get($i, 0);
-    }
-
-    return view('habitantes.grafica', [
-        'datos' => json_encode($datos)
-    ]);
-}
-
 }

@@ -23,6 +23,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @livewireStyles
 
     @stack('css')
 </head>
@@ -41,4 +42,6 @@
 <script src="{{asset('backend/dist/js/statuschange.js')}}"></script>
 
 @stack('scripts')
+@livewireScripts
+
 </html>
