@@ -7,8 +7,16 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-12 text-center">
-          <h2 class="text-white">Bienvenido, {{ Auth::user()->name }}</h2>
-          <p class="text-muted">Este es tu panel de vendedor</p>
+        <h2 class="text-white">Bienvenido, {{ Auth::user()->name }}</h2>
+
+@if(Auth::user()->rol == 2)
+    <p class="text-white">Este es tu panel de Comprador</p>
+@elseif(Auth::user()->rol == 3)
+    <p class="text-white">Este es tu panel de Vendedor</p>
+@else
+    <p class="text-white">Panel de usuario</p>
+@endif
+
         </div>
       </div>
     </div>

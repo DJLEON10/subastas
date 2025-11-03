@@ -48,9 +48,75 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">Categoría <strong style="color:red;">(*)</strong></label>
-                                            <input type="text" class="form-control" name="categoria" placeholder="Ejemplo: Electrodomésticos" value="{{ old('categoria') }}">
+                                        <div class="form-group">
+                                            <label for="categoria" class="form-label fw-bold">Categoría del Producto</label>
+                                            <select name="categoria" id="categoria" class="form-control categoria" data-nombre="categoria">
+                                                <option value="">-- Selecciona una categoría --</option>
+
+                                                <optgroup label="Tecnología">
+                                                    <option value="electronica">Electrónica</option>
+                                                    <option value="celulares">Celulares y Accesorios</option>
+                                                    <option value="computadores">Computadores y Laptops</option>
+                                                    <option value="videojuegos">Videojuegos y Consolas</option>
+                                                    <option value="audio">Audio y Sonido</option>
+                                                    <option value="televisores">Televisores</option>
+                                                </optgroup>
+
+                                                <optgroup label="Moda y Estilo">
+                                                    <option value="ropa">Ropa</option>
+                                                    <option value="calzado">Calzado</option>
+                                                    <option value="accesorios">Accesorios</option>
+                                                    <option value="joyeria">Joyería y Relojes</option>
+                                                    <option value="belleza">Belleza y Cuidado Personal</option>
+                                                </optgroup>
+
+                                                <optgroup label="Hogar y Electrodomésticos">
+                                                    <option value="muebles">Muebles</option>
+                                                    <option value="electrodomesticos">Electrodomésticos</option>
+                                                    <option value="decoracion">Decoración</option>
+                                                    <option value="cocina">Cocina y Utensilios</option>
+                                                    <option value="herramientas">Herramientas</option>
+                                                </optgroup>
+
+                                                <optgroup label="Coleccionables y Arte">
+                                                    <option value="monedas">Monedas y Billetes</option>
+                                                    <option value="figuras">Figuras y Miniaturas</option>
+                                                    <option value="arte">Arte y Pinturas</option>
+                                                    <option value="comics">Cómics y Cartas Coleccionables</option>
+                                                </optgroup>
+
+                                                <optgroup label="Deportes y Ocio">
+                                                    <option value="deportes">Artículos Deportivos</option>
+                                                    <option value="bicicletas">Bicicletas</option>
+                                                    <option value="camping">Camping y Aventura</option>
+                                                    <option value="fitness">Fitness y Gimnasio</option>
+                                                </optgroup>
+
+                                                <optgroup label="Vehículos">
+                                                    <option value="autos">Autos</option>
+                                                    <option value="motos">Motos</option>
+                                                    <option value="partes">Partes y Accesorios</option>
+                                                </optgroup>
+
+                                                <optgroup label="Niños y Bebés">
+                                                    <option value="juguetes">Juguetes</option>
+                                                    <option value="ropa_bebe">Ropa de Bebé</option>
+                                                    <option value="cuidado_bebe">Cuidado del Bebé</option>
+                                                </optgroup>
+
+                                                <optgroup label="Libros y Educación">
+                                                    <option value="libros">Libros</option>
+                                                    <option value="revistas">Revistas</option>
+                                                    <option value="musica">Música y Películas</option>
+                                                    <option value="instrumentos">Instrumentos Musicales</option>
+                                                </optgroup>
+
+                                                <optgroup label="Otros">
+                                                    <option value="animales">Animales y Mascotas</option>
+                                                    <option value="servicios">Servicios</option>
+                                                    <option value="otros">Otros Productos</option>
+                                                </optgroup>
+                                            </select>
                                         </div>
                                     </div>
 

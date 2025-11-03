@@ -133,6 +133,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- StatusChange -->
 <script src="{{asset('backend/dist/js/statuschange.js')}}"></script>
+<script src="{{asset('backend/dist/js//cookies.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const deleteForms = document.querySelectorAll('.delete-form');

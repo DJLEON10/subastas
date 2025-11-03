@@ -18,7 +18,7 @@
                     <div class="card">
                         <div class="card-header bg-secondary">
                             @yield('title')
-                            @if(Auth::user()->rol != '0')
+                            @if(Auth::user()->rol == '1' || Auth::user()->rol == '3' )
                                 <a href="{{ route('productos.create') }}" class="btn btn-primary float-right" title="Nuevo">
                                     <i class="fas fa-plus nav-icon"></i>
                                 </a>

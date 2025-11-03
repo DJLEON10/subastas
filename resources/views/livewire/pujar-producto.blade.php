@@ -6,7 +6,7 @@
         <p><strong>Incremento mínimo:</strong> ${{ number_format($producto->incrementoMinimo, 0, ',', '.') }}</p>
 
         <input type="number" wire:model="nuevoMonto" class="form-control mb-2" placeholder="Ingresa tu puja">
-        <button wire:click="hacerPuja" class="btn btn-primary w-100">Pujar</button>
+        <button wire:click="hacerPuja" class="btn btn-primary w-100 btn-subasta">Pujar</button>
     </div>
 
     <div class="card mt-3">
