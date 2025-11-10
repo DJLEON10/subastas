@@ -11,25 +11,53 @@ use App\Http\Requests\DepartamentoRequest;
 use Illuminate\Database\QueryException;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use MongoDB\Laravel\Eloquent\Builder;
+use MongoDB\BSON\Regex;
+use MongoDB\BSON\ObjectId;
 
 class DepartamentoController extends Controller
 {
-    public function index(Request $request)
-    {
-		$search = $request->input('search');
-		$perPage = $request->input('per_page', 10);
-		$departamentos = Departamento::with('pais')  
-		->where(function ($query) use ($search) {
-			if ($search) {
-				$query->where('nombre', 'like', "%{$search}%")
-					->orWhereHas('pais', function ($q) use ($search) {
-						$q->where('nombre', 'like', "%{$search}%");
-					});
-			}
-		})
-		->paginate($perPage);
-        return view('departamentos.index',compact('departamentos'));
+    public function index(Request $request){
+        $search = trim($request->input('search', ''));
+        $perPage = (int) $request->input('per_page', 10);
+
+        $query = Departamento::with('pais');
+
+        if ($search !== '') {
+
+            // activo o inactivo
+            $lower = strtolower($search);
+            if ($lower === 'activo') $search = '1';
+            if ($lower === 'inactivo') $search = '0';
+
+            // Condiciones Mongo
+            $conditions = [];
+
+            // busqueda por departamento
+            $conditions[] = ['nombre' => ['$regex' => new Regex($search, 'i')]];
+
+            // busqueda por país
+            $paises = Pais::where('nombre', 'like', "%{$search}%")->get();
+            $paisesIds = $paises->pluck('_id')->map(fn($id) => (string)$id)->toArray();
+
+            if (!empty($paisesIds)) {
+                $conditions[] = ['pais_id' => ['$in' => $paisesIds]];
+            }
+
+            // busqueda por estado ignorando otras condiciones
+            if ($search === '1' || $search === '0') {
+                $conditions = [['estado' => $search]]; 
+            }
+
+            // Condiciones con OR
+            $query->whereRaw(['$or' => $conditions]);
+        }
+
+        $departamentos = $query->paginate($perPage);
+
+        return view('departamentos.index', compact('departamentos'));
     }
+
 
     public function create()
     {

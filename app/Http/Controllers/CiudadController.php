@@ -12,26 +12,61 @@ use App\Http\Requests\CiudadRequest;
 use Illuminate\Database\QueryException;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use MongoDB\BSON\Regex;
 
 class CiudadController extends Controller
 {
-    public function index(Request $request)
-    {
-		$search = $request->input('search');
-		$perPage = $request->input('per_page', 10);
-        $ciudads = Ciudad::with(['departamento.pais'])
-            ->where(function ($query) use ($search) {
-                if ($search) {
-                    $query->where('nombre', 'like', "%{$search}%")
-                    ->orWhereHas('departamento', function ($q) use ($search) {
-						$q->where('nombre', 'like', "%{$search}%")
-						->orWhereHas('pais', function ($q) use ($search) {
-							$q->where('nombre', 'like', "%{$search}%");
-						});
-                    });
+
+    public function index(Request $request){
+
+        $search = trim($request->input('search', ''));
+        $perPage = (int) $request->input('per_page', 10);
+        $query = Ciudad::with(['departamento.pais']);
+
+        if ($search !== '') {
+            // busqueda por activo y inactivo
+            $lower = strtolower($search);
+            if ($lower === 'activo') $search = '1';
+            if ($lower === 'inactivo') $search = '0';
+
+            $conditions = [];
+
+            // Busqueda de ciudad
+            $conditions[] = ['nombre' => ['$regex' => new Regex($search, 'i')]];
+
+            // Busqueda de departamento
+            $departamentos = Departamento::where('nombre', 'like', "%{$search}%")->get();
+            $departamentoIds = $departamentos->pluck('_id')->map(fn($id) => (string)$id)->toArray();
+
+            if (!empty($departamentoIds)) {
+                $conditions[] = ['departamento_id' => ['$in' => $departamentoIds]];
+            }   
+
+            // Busqueda de país
+            $paises = Pais::where('nombre', 'like', "%{$search}%")->get();
+            $paisIds = $paises->pluck('_id')->map(fn($id) => (string)$id)->toArray();
+
+            if (!empty($paisIds)) {
+                // Busqueda de departamentos que pertenecen al pais
+                $departamentosDePaises = Departamento::whereIn('pais_id', $paisIds)->get();
+                $departamentosDePaisesIds = $departamentosDePaises->pluck('_id')->map(fn($id) => (string)$id)->toArray();
+
+                if (!empty($departamentosDePaisesIds)) {
+                    $conditions[] = ['departamento_id' => ['$in' => $departamentosDePaisesIds]];
                 }
-            })->paginate($perPage);
-		return view('ciudads.index',compact('ciudads'));
+            }
+
+            //Busqueda por estado 
+            if ($search === '1' || $search === '0') {
+                $conditions[] = ['estado' => $search];
+            }
+
+            $query->whereRaw(['$or' => $conditions]);
+        }
+
+        $ciudads = $query->paginate($perPage);
+
+        return view('ciudads.index', compact('ciudads'));
     }
 
     public function create()

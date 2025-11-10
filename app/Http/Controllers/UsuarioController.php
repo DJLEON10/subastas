@@ -16,22 +16,53 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use Exception;
 use Illuminate\Support\Facades\Log;
-
+use MongoDB\BSON\Regex;
 
 class UsuarioController extends Controller
 {
-    public function index(Request $request)
-    {
-		$search = $request->input('search');
-		$perPage = $request->input('per_page', 10);
-		$users = User::where(function ($query) use ($search) {
-			if ($search) {
-				$query->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
-			}
-		})->paginate($perPage);
-        return view('users.index',compact('users'));
-    }
+
+	public function index(Request $request){
+    	$search = trim($request->input('search', ''));
+    	$perPage = (int) $request->input('per_page', 10);
+
+    	$query = User::query();
+
+    	if ($search !== '') {
+        	$lower = strtolower($search);
+
+        	// Convertir valores
+        	if ($lower === 'activo') $search = '1';
+        	if ($lower === 'inactivo') $search = '0';
+        	if ($lower === 'admin' || $lower === 'administrador') $search = 'rol_1';
+        	if ($lower === 'usuario' || $lower === 'normal') $search = 'rol_0';
+
+			// Busqueda por estado
+        	if ($search === '1' || $search === '0') {
+            	$query->where('estado', $search);
+
+        	} elseif ($search === 'rol_1') {
+            	// Busqueda por rol administrador
+            	$query->where('rol', '1');
+
+        	} elseif ($search === 'rol_0') {
+	            // Busqueda por rol usuario normal
+    	        $query->where('rol', '0');
+
+        	} else {
+            	// Búsqueda general
+            	$query->whereRaw([
+                	'$or' => [
+                    	['name'  => ['$regex' => new Regex($search, 'i')]],
+                    	['email' => ['$regex' => new Regex($search, 'i')]],
+                	]
+            	]);
+        	}
+    	}	
+
+    	$users = $query->paginate($perPage);
+
+    	return view('users.index', compact('users'));
+	}
 
     public function create()
     {

@@ -35,7 +35,7 @@
 									@foreach($departamentos as $departamento)
 									<tr>
 										<td>{{ $departamento->id }}</td>
-										<td>{{ $departamento->pais->nombre }}</td>
+										<td>{{ ($departamento->pais)->nombre ?? 'Sin país' }}</td>
 										<td>{{ $departamento->nombre }}</td>
 									@if(Auth::user()->rol != '0')
 										<td>
