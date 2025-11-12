@@ -20,34 +20,118 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use MongoDB\BSON\Regex;
 
 class ProductoController extends Controller
 {
-    public function index(Request $request)
-{
-    $search = $request->input('search');
-    $perPage = $request->input('per_page', 10);
 
-    $productos = Producto::with(['ciudad'])
-        ->where(function ($query) use ($search) {
-            if ($search) {
-                $query->where('nombre', 'like', "%{$search}%")
-                      ->orWhere('apellido', 'like', "%{$search}%") 
-                      ->orWhereHas('ciudad', function ($q) use ($search) {
-                          $q->where('nombre', 'like', "%{$search}%")
-                            ->orWhereHas('ciudad', function ($q) use ($search) {
-                                $q->where('nombre', 'like', "%{$search}%");
-                            });
-                      });
+    public function index(Request $request){
+        $search = trim((string) $request->input('search', ''));
+        $categoria = $request->input('categoria', '');
+        $perPage = (int) $request->input('per_page', 10);
+
+        $query = Producto::with(['ciudad.departamento.pais']);
+
+            // Busqueda de categoría
+            if ($categoria !== '') {
+                $query->where('categoria', $categoria);
             }
-        })->paginate($perPage);
 
+            if ($search !== '') {
+                $lower = strtolower($search);
 
-        return view('productos.index', compact(
-            'productos'
-            
-        ));
-}
+                // Busqueda por estado
+                if ($lower === 'activo') {
+                    $query->where(function ($q) {
+                        $q->where('estado', 1)
+                        ->orWhere('estado', '1')
+                        ->orWhere('estado', true)
+                        ->orWhere('estado', 'true');
+                    });
+                } elseif ($lower === 'inactivo') {
+                    $query->where(function ($q) {
+                        $q->where('estado', 0)
+                        ->orWhere('estado', '0')
+                        ->orWhere('estado', false)
+                        ->orWhere('estado', 'false');
+                    });
+                } else {
+                // busquedas en general
+                $regex = new Regex($search, 'i');
+                $conditions = [];
+
+                $conditions[] = ['nombre' => ['$regex' => $regex]];
+                $conditions[] = ['descripcion' => ['$regex' => $regex]];
+                $conditions[] = ['categoria' => ['$regex' => $regex]];
+
+                // Busqueda por precio
+                if (is_numeric($search)) {
+                    $num = (float) $search;
+                    $conditions[] = ['precio' => ['$eq' => $num]];
+                    $conditions[] = ['precio' => ['$regex' => $regex]];
+                }
+
+                // Busqueda por País, departamento, ciudad
+                $paisMatches = Pais::where('nombre', 'like', "%{$search}%")->get();
+                $paisIds = $paisMatches->pluck('_id')->map(fn($id) => (string) $id)->toArray();
+
+                $deptoMatches = collect();
+                if (!empty($paisIds)) {
+                    $deptoMatches = $deptoMatches->merge(
+                        Departamento::whereIn('pais_id', $paisIds)->get()
+                    );
+                }
+                $deptoMatches = $deptoMatches->merge(
+                    Departamento::where('nombre', 'like', "%{$search}%")->get()
+                )->unique('_id');
+                $deptoIds = $deptoMatches->pluck('_id')->map(fn($id) => (string) $id)->toArray();
+
+                $ciudadMatches = collect();
+                if (!empty($deptoIds)) {
+                    $ciudadMatches = $ciudadMatches->merge(
+                        Ciudad::whereIn('departamento_id', $deptoIds)->get()
+                    );
+                }
+                $ciudadMatches = $ciudadMatches->merge(
+                Ciudad::where('nombre', 'like', "%{$search}%")->get()
+                )->unique('_id');
+                $ciudadIds = $ciudadMatches->pluck('_id')->map(fn($id) => (string) $id)->toArray();
+
+                if (!empty($ciudadIds)) {
+                    $conditions[] = ['ciudad_id' => ['$in' => $ciudadIds]];
+                }
+
+                if (!empty($deptoIds)) {
+                    $conditions[] = ['departamento_id' => ['$in' => $deptoIds]];
+                }
+
+                if (!empty($paisIds) && empty($ciudadIds)) {
+                    $deptoFromPais2 = Departamento::whereIn('pais_id', $paisIds)->pluck('_id')->toArray();
+                    if (!empty($deptoFromPais2)) {
+                        $ciudadesFromPais = Ciudad::whereIn('departamento_id', $deptoFromPais2)->pluck('_id')->toArray();
+                        if (!empty($ciudadesFromPais)) {
+                            $conditions[] = ['ciudad_id' => ['$in' => $ciudadesFromPais]];
+                        }
+                    }
+                }
+
+                if (!empty($conditions)) {
+                    $query->whereRaw(['$or' => $conditions]);
+                }
+            }
+        }
+
+        $productos = $query->paginate($perPage);
+
+        // busqueda sin resultados
+        if ($productos->isEmpty()) {
+            return view('productos.index', compact('productos'))
+            ->with('mensaje', 'No se encontraron resultados para tu búsqueda.');
+        }
+
+        return view('productos.index', compact('productos'));
+    }
+
 
     public function create()
     {

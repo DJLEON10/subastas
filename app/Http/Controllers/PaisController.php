@@ -10,19 +10,41 @@ use App\Http\Requests\PaisRequest;
 use Illuminate\Database\QueryException;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use MongoDB\BSON\Regex;
+
 
 class PaisController extends Controller
 {
-    public function index(Request $request)
-    {
-		$search = $request->input('search');
-		$perPage = $request->input('per_page', 10);
-		$paises = Pais::where(function ($query) use ($search) {
-			if ($search) {
-				$query->where('nombre', 'like', "%{$search}%");
-			}
-		})->paginate($perPage);
-        return view('paises.index',compact('paises'));
+
+    public function index(Request $request){
+        $search = trim($request->input('search', ''));
+        $perPage = (int) $request->input('per_page', 10);
+
+        $query = Pais::query();
+
+        if ($search !== '') {
+            $lower = strtolower($search);
+
+            // Busqueda de estado
+            if ($lower === 'activo') $search = '1';
+            if ($lower === 'inactivo') $search = '0';
+
+            // búsqueda si es 1 o 0 
+            if ($search === '1' || $search === '0') {
+            $query->where('estado', $search);
+            } else {
+                // Búsqueda general 
+                $query->whereRaw([
+                    '$or' => [
+                        ['nombre' => ['$regex' => new Regex($search, 'i')]],
+                    ]
+                ]);
+            }
+        }
+
+        $paises = $query->paginate($perPage);
+
+        return view('paises.index', compact('paises'));
     }
 
     public function create()

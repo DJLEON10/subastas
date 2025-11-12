@@ -2,7 +2,6 @@
 
 @section('title', 'Listado De Habitantes de Productos ')
 
-
 @section('content')
 <div class="content-wrapper">
     <section class="content-header text-right">
@@ -29,10 +28,18 @@
                         
                         <div class="card-body">
                             <div class="row">
-                                @foreach($productos as $producto)
-                                    @include('components.user_card', ['producto' => $producto])
-                                @endforeach
+                                @if ($productos->count() > 0)
+                                    @foreach($productos as $producto)
+                                        @include('components.user_card', ['producto' => $producto])
+                                    @endforeach
+                                @else
+                                    <div class="col-12 text-center py-5">
+                                        <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                                        <h5 class="text-muted">No se encontraron productos que coincidan con la búsqueda.</h5>
+                                    </div>
+                                @endif
                             </div>
+
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                 <div class="d-flex justify-content-start">
                                     @if ($productos->total() > 0)
@@ -59,6 +66,7 @@
     </section>
 </div>
 @endsection
+
 @push('scripts')
 <script>
     $(document).ready(function () {
@@ -85,5 +93,3 @@
     });
 </script>
 @endpush
-
-
