@@ -10,6 +10,7 @@ use App\Http\Controllers\PaisController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\CiudadController;
 use App\Http\Controllers\FamiliarController;
+use App\Http\Controllers\ForoController;
 use App\Http\Controllers\HabitantesController;
 use App\Http\Controllers\TipoDocumentoController;
 use App\Http\Controllers\UsuarioController;
@@ -67,6 +68,10 @@ Route::resource('familiares', FamiliarController::class)->parameters([
     'familiares' => 'familiar'
 ]);Route::get('cambioestadofamiliar', [FamiliarController::class, 'cambioestadofamiliar'])->name('cambioestadofamiliar');
 Route::get('getFamiliares', [FamiliarController::class, 'getFamiliares'])->name('getFamiliares');
+
+
+Route::resource('foros', ForoController::class);
+Route::get('cambioestadoforo', [ForoController::class, 'cambioestadoforo'])->name('cambioestadoforo');
 
 
 });
