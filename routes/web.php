@@ -17,6 +17,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductoController;
 use App\Models\Departamento;
+use App\Http\Controllers\PqrsController;
 
 Auth::routes();
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
@@ -63,6 +64,9 @@ Route::group(['middleware' => ['auth']], function() {
 
 Route::resource('productos', ProductoController::class);
 Route::get('cambioestadoproducto', [ProductoController::class, 'cambioestadoproducto'])->name('cambioestadoproducto');
+
+Route::resource('pqrs', PqrsController::class);
+Route::get('cambioestadopqrs', [PqrsController::class, 'cambioestadopqrs'])->name('cambioestadopqrs');
 
 Route::resource('familiares', FamiliarController::class)->parameters([
     'familiares' => 'familiar'

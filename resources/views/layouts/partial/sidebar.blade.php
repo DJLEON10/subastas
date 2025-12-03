@@ -84,6 +84,9 @@
                             </ul>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item palabritas">
+                                    <a href="{{ route('pqrs.index') }}" class="nav-link palabritas">
+                                        <i class="fas fa-users"></i>
+                                        <p>Formulario PQRS</p>
                                     <a href="{{ route('foros.index') }}" class="nav-link palabritas">
                                         <i class="fas fa-users"></i>
                                         <p>Foros</p>
